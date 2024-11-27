@@ -17,7 +17,7 @@ if uploaded_file:
 
         #Step 1 - Motor 
         st.subheader("Select Motor")
-        motor_types = motor_df['Motor Type'].unique()
+        motor_types = sorted(motor_df['Motor Type'].unique(), reverse=True) #reverse True means decending 
         selected_motor = st.selectbox("Select Motor", motor_types)
 
         if selected_motor:
@@ -25,10 +25,15 @@ if uploaded_file:
 
             #Show unique optiosn for the motor type
             motor_options = motor_df[motor_df['Motor Type'] == selected_motor]
+            st.subheader("Select Motor Properties")
+
+            selected_values = {}
             for col in motor_df.columns:
                 if col != "Motor Type":
                     unique_value = motor_options[col].dropna().unique()
-                    selected_value = st.selectbox("Select {col}", unique_value)
+                    sorted_values = sorted(unique_value, reverse=True)
+                    selected_value = st.selectbox("Select {col}", sorted_values)
+                    selected_values[col] = selected_value
                     st.write(f"Selected {col}: {selected_value}")
 
         #Step 2: Gearbox
@@ -41,7 +46,8 @@ if uploaded_file:
             for col in gearbox_df.columns:
                 if col != "Motor Type":
                     unique_value = compatible_gearboxes[col].dropna().unique()
-                    selected_value = st.selectbox(f"Select {col}", unique_value)
+                    sorted_values = sorted(unique_value, reverse=True)
+                    selected_value = st.selectbox(f"Select {col}", sorted_values)
                     st.write(f"Selected {col}: {selected_value}")
         else:
             st.warning("No compatib;e gearboxes found for the selected motor")
