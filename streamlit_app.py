@@ -31,6 +31,9 @@ if uploaded_file:
 
             #looping through each column and storing the value    
             for col in motor_df.columns:
+                #get same data type
+                motor_df[col] = motor_df[col].astype(str)
+
                 if col != "Motor Type":
                     unique_value = filtered_motor_df[col].dropna().unique()
                     sorted_values = sorted(unique_value, reverse=True)
@@ -41,6 +44,7 @@ if uploaded_file:
 
                     #filter based on selected value
                     filtered_motor_df = filtered_motor_df[filtered_motor_df[col] == selected_value]
+                    st.write(f"Selected {col}: {selected_value}")
 
         #Step 2: Gearbox
         st.subheader("Select Gearbox")
@@ -49,11 +53,19 @@ if uploaded_file:
         compatible_gearboxes = gearbox_df[gearbox_df["Motor Type"] == selected_motor]
 
         if not compatible_gearboxes.empty:
+            
             for col in gearbox_df.columns:
+                #get same data type
+                gearbox_df[col] = gearbox_df[col].astype(str)
+
                 if col != "Motor Type":
                     unique_value = compatible_gearboxes[col].dropna().unique()
                     sorted_values = sorted(unique_value, reverse=True)
                     selected_value = st.selectbox(f"Select {col}", sorted_values)
+
+                    #filter gearbox selections
+                    compatible_gearboxes = compatible_gearboxes[compatible_gearboxes[col] == selected_value]
+
                     st.write(f"Selected {col}: {selected_value}")
         else:
             st.warning("No compatib;e gearboxes found for the selected motor")
