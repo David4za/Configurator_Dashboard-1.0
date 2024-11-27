@@ -37,7 +37,7 @@ if uploaded_file:
                 if col != "Motor Type":
                     unique_value = filtered_motor_df[col].dropna().unique()
                     sorted_values = sorted(unique_value, reverse=True)
-                    selected_value = st.selectbox(f"Select {col}", sorted_values)
+                    selected_value = st.selectbox(f"Select {col}", sorted_values, key = f"motor_{col}") #this is a unique key generator 
 
                     #store the selected value
                     selected_values[col] = selected_value
@@ -61,7 +61,7 @@ if uploaded_file:
                 if col != "Motor Type":
                     unique_value = compatible_gearboxes[col].dropna().unique()
                     sorted_values = sorted(unique_value, reverse=True)
-                    selected_value = st.selectbox(f"Select {col}", sorted_values)
+                    selected_value = st.selectbox(f"Select {col}", sorted_values, key=f"gearbox_{col}")
 
                     #filter gearbox selections
                     compatible_gearboxes = compatible_gearboxes[compatible_gearboxes[col] == selected_value]
