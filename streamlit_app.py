@@ -37,7 +37,7 @@ if uploaded_file:
                 if col != "Motor Type":
                     unique_value = filtered_motor_df[col].dropna().unique()
                     sorted_values = sorted(unique_value, reverse=True)
-                    selected_value = st.selectbox("Select {col}", sorted_values)
+                    selected_value = st.selectbox(f"Select {col}", sorted_values)
 
                     #store the selected value
                     selected_values[col] = selected_value
