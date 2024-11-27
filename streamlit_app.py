@@ -17,7 +17,7 @@ if uploaded_file:
 
         #Step 1 - Motor 
         st.subheader("Select Motor")
-        motor_types = sorted(motor_df['Motor Type'].unique(), reverse=True) #reverse True means decending 
+        motor_types = sorted(motor_df['Motor Type'].unique(), reverse=False) #reverse True means decending 
         selected_motor = st.selectbox("Select Motor", motor_types)
 
         if selected_motor:
@@ -31,7 +31,7 @@ if uploaded_file:
             for col in motor_df.columns:
                 if col != "Motor Type":
                     unique_value = motor_options[col].dropna().unique()
-                    sorted_values = sorted(unique_value, reverse=True)
+                    sorted_values = sorted(unique_value, reverse=False)
                     selected_value = st.selectbox("Select {col}", sorted_values)
                     selected_values[col] = selected_value
                     st.write(f"Selected {col}: {selected_value}")
@@ -46,7 +46,7 @@ if uploaded_file:
             for col in gearbox_df.columns:
                 if col != "Motor Type":
                     unique_value = compatible_gearboxes[col].dropna().unique()
-                    sorted_values = sorted(unique_value, reverse=True)
+                    sorted_values = sorted(unique_value, reverse=False)
                     selected_value = st.selectbox(f"Select {col}", sorted_values)
                     st.write(f"Selected {col}: {selected_value}")
         else:
