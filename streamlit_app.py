@@ -17,24 +17,30 @@ if uploaded_file:
 
         #Step 1 - Motor 
         st.subheader("Select Motor")
-        motor_types = sorted(motor_df['Motor Type'].unique(), reverse=False) #reverse True means decending 
+        motor_types = sorted(motor_df['Motor Type'].unique(), reverse=True) #reverse True means decending 
         selected_motor = st.selectbox("Select Motor", motor_types)
 
         if selected_motor:
             st.write(f'You selected Motor Type: {selected_motor}')
 
             #Show unique optiosn for the motor type
-            motor_options = motor_df[motor_df['Motor Type'] == selected_motor]
-            st.subheader("Select Motor Properties")
+            filtered_motor_df = motor_df[motor_df['Motor Type'] == selected_motor]
 
+            st.subheader("Select Motor Properties")
             selected_values = {}
+
+            #looping through each column and storing the value    
             for col in motor_df.columns:
                 if col != "Motor Type":
-                    unique_value = motor_options[col].dropna().unique()
-                    sorted_values = sorted(unique_value, reverse=False)
+                    unique_value = filtered_motor_df[col].dropna().unique()
+                    sorted_values = sorted(unique_value, reverse=True)
                     selected_value = st.selectbox("Select {col}", sorted_values)
+
+                    #store the selected value
                     selected_values[col] = selected_value
-                    st.write(f"Selected {col}: {selected_value}")
+
+                    #filter based on selected value
+                    filtered_motor_df = filtered_motor_df[filtered_motor_df[col] == selected_value]
 
         #Step 2: Gearbox
         st.subheader("Select Gearbox")
@@ -46,7 +52,7 @@ if uploaded_file:
             for col in gearbox_df.columns:
                 if col != "Motor Type":
                     unique_value = compatible_gearboxes[col].dropna().unique()
-                    sorted_values = sorted(unique_value, reverse=False)
+                    sorted_values = sorted(unique_value, reverse=True)
                     selected_value = st.selectbox(f"Select {col}", sorted_values)
                     st.write(f"Selected {col}: {selected_value}")
         else:
